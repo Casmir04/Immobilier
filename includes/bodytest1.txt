@@ -1,0 +1,195 @@
+<?php
+$appart_id=$_GET['id'];
+$postQuery="SELECT * FROM clients WHERE id=$appart_id";
+$runPQ= mysqli_query($db,$postQuery);
+$post=mysqli_fetch_assoc($runPQ);
+?>
+<div class="site-section site-portfolio" style="padding-bottom: 0px;">
+      <div class="container">
+        <div class="row mb-5 align-items-center">
+          <div class="col-md-12 col-lg-6 mb-4 mb-lg-0" data-aos="fade-up">
+            <h2>Chez Nous, C'est le confort</h2>
+          </div>
+        </div>
+        <div id="portfolio-grid" class="row no-gutter" data-aos="fade-up" data-aos-delay="200">
+
+
+        <?php
+$sql = "SELECT * FROM appartement ap,immeuble im WHERE ap.emeubl_id=im.id";
+$result = $db->query($sql);
+?>
+<?php 
+if($result->num_rows > 0){
+    ?>
+    <?php while ($row = $result->fetch_assoc()){
+        ?>
+    <div class="item web col-sm-6 col-md-4 col-lg-4 mb-4">
+            <div class="item-wrap fancybox">
+              <div class="work-info">
+              <h3>id appartement: <?php echo $row['id']?> </h3>
+              <h3>Nom Immeuble: <?php echo $row['nom']?> </h3>
+                <h3>Adresse :<?php echo $row['adresse']?> </h3>
+                <h3>Num Porte: <?php echo $row['num_porte']?> </h3>
+                <h3>Num Etage: <?php echo $row['num_etage']?> </h3>
+                <h3>Num Appart: <?php echo $row['num_appart']?> </h3>
+                <h3>Super: <?php echo $row['superficie']?> </h3>
+                <h3>Nombr Chamb: <?php echo $row['nombr_chambre']?> </h3>
+                <h3>Prix: <?php echo $row['prix']?> </h3>
+ </div>
+              <img class="img-fluid" src="img/img_1.jpg">
+</div><br>
+<button type="button" class="btn btn-primary" style="margin-left: 100px;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Add To Cart
+</button>
+</div>
+        <?php
+    } ?>
+    <?php
+}else{
+    echo "0 Membre";
+}
+?>
+
+      
+          
+
+
+          
+         
+        </div>
+  
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Veillez Reseingner les information Suivant</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form action="includes/add_avis.php" method="post">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Nom</label>
+    <input type="text" class="form-control" name="nom" id="exampleInputEmail1" >
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Prenom</label>
+    <input type="text" class="form-control" name="prenom" id="exampleInputEmail1">
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Adresse</label>
+    <input type="text" class="form-control" name="adresse" id="exampleInputEmail1" >
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Telephone</label>
+    <input type="text" class="form-control" name="telephone" id="exampleInputEmail1">
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Profession</label>
+    <input type="text" class="form-control" name="profession" id="exampleInputEmail1" >
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Num CRN</label>
+    <input type="text" class="form-control" name="num_crn" id="exampleInputEmail1">
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Votre Votre Avie</label>
+    <input type="text" class="form-control" name="avis_clients">
+  </div>
+  <div class="modal-footer">
+  <input type="hidden" name="appart_id" value="<?=$appart_id?>">
+  <button type="submit" name="addavis" class="btn btn-primary">Add Comment</button>
+      
+      </div>
+</form>
+      </div>
+      
+    </div>
+</div>
+</div>
+      </div>
+    </div>
+    <style>
+body {
+    font-family: "Inconsolata", monosapce;
+    color: #0d1e2d;
+}
+
+.item {
+    border: none;
+    margin-bottom: 30px;
+}
+
+.item .item-wrap {
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+
+.item .item-wrap:after {
+    z-index: 2;
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    visibility: hidden;
+    opacity: 0;
+    transition: .3s all ease-in-out;
+}
+
+.item .item-wrap img {
+    transition: .3s transform ease;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+.item .item-wrap>.work-info {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    z-index: 3;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    color: #fff;
+    opacity: 0;
+    visibility: hidden;
+    margin-top: 20px;
+    transition: .3s all ease;
+}
+
+.item .item-wrap>.work-info h3 {
+    font-size: 20px;
+    margin-bottom: 0;
+}
+
+.item .item-wrap>.work-info span {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: .2rem;
+}
+
+.item .item-wrap:hover {
+    text-decoration: none;
+}
+
+.item .item-wrap:hover img {
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05);
+}
+
+.item .item-wrap:hover:after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.item .item-wrap:hover .work-info {
+    margin-top: 0px;
+    opacity: 1;
+    visibility: visible;
+}
+    </style>
